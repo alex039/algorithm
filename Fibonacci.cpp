@@ -2,9 +2,17 @@
 //(Fn+1, Fn) (1, 1)n
 //(Fn, Fn-1)=(1, 0)
 #include <memory.h>
-void multiply(const int(*a)[2], const int(*b)[2], int(*Result)[2]);
-void PowerMatrix(int n, int(*Resutl)[2]);
+int Result[2][2] = { 1, 1, 1, 0 };
+void multiply(const int(*a)[2], const int(*b)[2]);
+void PowerMatrix(int n);
 const int elementMatrix[2][2] = {1,1,1,0};
+void initial()
+{
+	Result[0][0] = 1;
+	Result[0][1] = 1;
+	Result[1][0] = 1;
+	Result[1][1] = 0;
+}
 int Fibonacci(int n)
 {
 
@@ -12,29 +20,31 @@ int Fibonacci(int n)
 	{
 		return 0;
 	}
-	int Result[2][2] = { 1, 1, 1, 0 };
-	PowerMatrix(n, Result);
-	return Result[0][1];
+
+	PowerMatrix(n);
+	int i =  Result[0][1];
+	initial();
+	return i;
 }
-void PowerMatrix(int n, int(*Result)[2])
+void PowerMatrix(int n)
 {
 	if (n > 1)
 	{
-		PowerMatrix(n / 2, Result);
+		PowerMatrix(n / 2);
 
 		if (n % 2 == 0)
 		{
-			multiply(Result, Result, Result);
+			multiply(Result, Result);
 		}
 		else
 		{
-			multiply(Result, Result, Result);
-			multiply(Result, elementMatrix, Result);
+			multiply(Result, Result);
+			multiply(Result, elementMatrix);
 		}
 	}
 }
 
-void multiply(const int(*a)[2], const int(*b)[2], int(*Result)[2])
+void multiply(const int(*a)[2], const int(*b)[2])
 {
 	int copyA[2][2] = {0};
 	int copyB[2][2] = {0};
@@ -50,3 +60,4 @@ void multiply(const int(*a)[2], const int(*b)[2], int(*Result)[2])
 		}
 	}
 }
+
